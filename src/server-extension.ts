@@ -22,9 +22,15 @@ export class Metrics {
   @Field(() => Number, { nullable: false })
   totalContributors!: number
   @Field(() => String, { nullable: false })
+<<<<<<< HEAD
   totalAmountContributed!: String
   @Field(() => ReferralCodeCount, { nullable: false })
   referralCodeCount!: ReferralCodeCount[]
+=======
+  totalAmountContributed!: String;
+  @Field(() => [ReferralCodeCount], { nullable: false })
+  referralCodeCount!: ReferralCodeCount[];
+>>>>>>> f699653 (add array type to field)
 
 
   constructor(totalContributions: number, totalContributors: number, totalAmountContributed: string, referralCodeCount: ReferralCodeCount[]) {
@@ -44,6 +50,7 @@ export class MetricsResolver {
 
   @Query(() => Metrics)
   async metrics(): Promise<Metrics> {
+<<<<<<< HEAD
     const tx = await this.tx()
 
     let count = await tx.getRepository(Contribution).createQueryBuilder().getCount()
@@ -53,5 +60,32 @@ export class MetricsResolver {
     let topReferrersStringQuery = "SELECT referral_code, COUNT(referral_code) as referral_count from contribution WHERE referral_code IS NOT NULL GROUP BY referral_code ORDER BY referral_count DESC"
     let topReferrersResult = await tx.getRepository(Contribution).query(topReferrersStringQuery)
     return new Metrics(count, indCount, totalAmountContributed[0].sum, topReferrersResult)
+=======
+    const db = await this.db();
+    let count = await db
+      .getRepository(Contribution)
+      .createQueryBuilder()
+      .getCount();
+    let indCount = await db
+      .getRepository(Contributor)
+      .createQueryBuilder()
+      .getCount();
+    let stringQuery = "SELECT SUM(balance) from contribution";
+    let totalAmountContributed = await db
+      .getRepository(Contribution)
+      .query(stringQuery);
+    let topReferrersStringQuery =
+      "SELECT referral_code, COUNT(referral_code) as referral_count from contribution WHERE referral_code IS NOT NULL GROUP BY referral_code ORDER BY referral_count DESC";
+    let topReferrersResult = await db
+      .getRepository(Contribution)
+      .query(topReferrersStringQuery);
+  
+    return new Metrics(
+      count,
+      indCount,
+      totalAmountContributed[0].sum,
+      topReferrersResult
+    );
+>>>>>>> f699653 (add array type to field)
   }
 }
