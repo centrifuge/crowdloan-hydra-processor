@@ -23,7 +23,7 @@ export class Metrics {
   totalContributors!: number;
   @Field(() => String, { nullable: false })
   totalAmountContributed!: String;
-  @Field(() => ReferralCodeCount, { nullable: false })
+  @Field(() => [ReferralCodeCount], { nullable: false })
   referralCodeCount!: ReferralCodeCount[];
 
   constructor(
@@ -63,6 +63,7 @@ export class MetricsResolver {
     let topReferrersResult = await db
       .getRepository(Contribution)
       .query(topReferrersStringQuery);
+  
     return new Metrics(
       count,
       indCount,
