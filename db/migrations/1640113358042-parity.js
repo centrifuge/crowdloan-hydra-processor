@@ -1,7 +1,7 @@
 const { MigrationInterface, QueryRunner } = require("typeorm");
 
-module.exports = class parity1640107127558 {
-    name = 'parity1640107127558'
+module.exports = class parity1640113358042 {
+    name = 'parity1640113358042'
 
     async up(queryRunner) {
         await queryRunner.query(`CREATE TABLE "contributor" ("id" character varying NOT NULL, "total_contributed" numeric, "para_id" integer NOT NULL, "count_contributions" integer, CONSTRAINT "PK_816afef005b8100becacdeb6e58" PRIMARY KEY ("id"))`);
