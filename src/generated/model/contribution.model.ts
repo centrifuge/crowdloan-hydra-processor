@@ -16,9 +16,11 @@ export class Contribution {
   account!: Contributor
 
   @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: true})
+  @Index_()
   balance!: bigint | undefined | null
 
   @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
+  @Index_()
   blockNumber!: bigint
 
   @Column_("text", {nullable: false})
